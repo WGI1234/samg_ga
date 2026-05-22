@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAMG 경영지원팀 업무 포털</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #0a0a0a;
+  --dark: #1a1a1a;
+  --mid: #444;
+  --gray: #888;
+  --light-gray: #ccc;
+  --border: #e0e0e0;
+  --bg: #f7f7f7;
+  --white: #fff;
+  --yellow: #FFF3CD;
+  --yellow-border: #E6C84A;
+}
+
+body {
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--black);
+  font-size: 13px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--black);
+  color: var(--white);
+  padding: 0 40px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #222;
+}
+.header-logo {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-logo .dot {
+  width: 6px; height: 6px;
+  background: var(--yellow-border);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 12px;
+  color: var(--light-gray);
+}
+.header-nav a {
+  color: var(--light-gray);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.header-nav a:hover { color: var(--white); }
+.header-badge {
+  background: #222;
+  border: 1px solid #333;
+  color: var(--gray);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 2px;
+  letter-spacing: 0.08em;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--black);
+  color: var(--white);
+  padding: 56px 40px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.025);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: 30%;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.015);
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 1040px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.hero-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 20px; height: 1px;
+  background: var(--gray);
+}
+.hero h1 {
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+.hero h1 em {
+  color: var(--light-gray);
+  font-weight: 300;
+  font-style: normal;
+}
+.hero-desc {
+  font-size: 14px;
+  color: #aaa;
+  font-weight: 300;
+  margin-top: 8px;
+  max-width: 480px;
+  line-height: 1.65;
+}
+.hero-meta {
+  display: flex;
+  gap: 32px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #222;
+}
+.hero-meta-item .label {
+  font-size: 10px;
+  color: var(--gray);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.hero-meta-item .value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--light-gray);
+}
+
+/* ── CONTAINER ── */
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 48px 40px 80px;
+}
+
+/* ── SECTION HEADER ── */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--black);
+}
+.section-num {
+  width: 28px; height: 28px;
+  background: var(--black);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.section-title {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.section-desc {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--gray);
+}
+
+/* ── MENU GRID ── */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 48px;
+}
+
+/* ── MENU CARD ── */
+.menu-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--black);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  position: relative;
+}
+.menu-card:hover {
+  border-color: var(--black);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.menu-card.active {
+  border-color: var(--black);
+}
+.menu-card.coming-soon {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
+.menu-card-head {
+  background: var(--dark);
+  color: var(--white);
+  padding: 14px 16px 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.menu-card-icon {
+  font-size: 22px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.menu-card-badges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+.badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+.badge-live {
+  background: var(--yellow);
+  color: #5a3e00;
+}
+.badge-soon {
+  background: #333;
+  color: var(--gray);
+}
+.badge-new {
+  background: #1a1a1a;
+  color: var(--yellow-border);
+  border: 1px solid var(--yellow-border);
+}
+.menu-card-body {
+  padding: 14px 16px 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.menu-card-title {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.menu-card-sub {
+  font-size: 11px;
+  color: var(--gray);
+  line-height: 1.6;
+  flex: 1;
+}
+.menu-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--mid);
+}
+.menu-card-footer .arrow {
+  font-size: 14px;
+  color: var(--black);
+  font-weight: 700;
+}
+.menu-card-footer .pages {
+  font-size: 10px;
+  color: var(--light-gray);
+  letter-spacing: 0.05em;
+}
+
+/* ── NOTICE SECTION ── */
+.notice-section {
+  margin-bottom: 48px;
+}
+.notice-list {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.notice-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  line-height: 1.5;
+  text-decoration: none;
+  color: var(--black);
+  transition: background 0.12s;
+}
+.notice-item:last-child { border-bottom: none; }
+.notice-item:hover { background: #fafafa; }
+.notice-tag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 2px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.notice-tag.update { background: var(--yellow); color: #5a3e00; }
+.notice-tag.notice { background: #f0f0f0; color: var(--mid); }
+.notice-tag.new { background: var(--black); color: var(--white); }
+.notice-title {
+  flex: 1;
+  font-weight: 500;
+}
+.notice-title .new-dot {
+  display: inline-block;
+  width: 5px; height: 5px;
+  background: var(--yellow-border);
+  border-radius: 50%;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.notice-date {
+  font-size: 10px;
+  color: var(--light-gray);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.notice-empty {
+  padding: 32px;
+  text-align: center;
+  color: var(--light-gray);
+  font-size: 12px;
+}
+
+/* ── QUICK LINKS ── */
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 48px;
+}
+.quick-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px 14px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--black);
+  transition: border-color 0.15s;
+  display: block;
+}
+.quick-card:hover { border-color: var(--black); }
+.quick-icon { font-size: 20px; margin-bottom: 6px; }
+.quick-label { font-size: 11px; font-weight: 700; margin-bottom: 2px; }
+.quick-desc { font-size: 10px; color: var(--gray); }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--black);
+  color: var(--white);
+  padding: 24px 40px;
+  text-align: center;
+}
+.footer-main {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.footer-sub {
+  font-size: 11px;
+  color: var(--gray);
+}
+
+/* ── PLACEHOLDER ── */
+.placeholder-bar {
+  background: repeating-linear-gradient(
+    -45deg,
+    #f5f5f5,
+    #f5f5f5 4px,
+    #ebebeb 4px,
+    #ebebeb 8px
+  );
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  padding: 24px;
+  text-align: center;
+  color: var(--light-gray);
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 760px) {
+  .header { padding: 0 16px; }
+  .hero { padding: 40px 20px 36px; }
+  .hero h1 { font-size: 28px; }
+  .container { padding: 32px 16px 60px; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .quick-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero-meta { flex-wrap: wrap; gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-logo">
+    <div class="dot"></div>
+    SAMG · 경영지원팀
+  </div>
+  <div class="header-nav">
+    <a href="#">공지사항</a>
+    <a href="#">문의하기</a>
+    <span class="header-badge">INTERNAL ONLY</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">경영지원팀 업무 포털</div>
+    <h1>임직원 업무 안내<br><em>매뉴얼 & 가이드</em></h1>
+    <div class="hero-desc">
+      경영지원팀에서 제공하는 업무 안내 자료를 한 곳에서 확인하세요.
+      각 매뉴얼을 클릭하면 상세 안내 페이지로 이동합니다.
+    </div>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="label">담당부서</div>
+        <div class="value">경영지원팀</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="label">최종 업데이트</div>
+        <div class="value">2025년 5월</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="label">문의</div>
+        <div class="value">경영지원팀 담당자</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ① 업무 매뉴얼 -->
+  <div class="notice-section">
+    <div class="section-header">
+      <div class="section-num">①</div>
+      <div class="section-title">업무 매뉴얼</div>
+      <div class="section-desc">클릭하여 상세 페이지로 이동</div>
+    </div>
+
+    <div class="menu-grid">
+
+      <!-- ABTC 카드 매뉴얼 (완성) -->
+      <a class="menu-card active" href="abtc_manual.html">
+        <div class="menu-card-head">
+          <div class="menu-card-icon">💳</div>
+          <div class="menu-card-badges">
+            <span class="badge badge-live">LIVE</span>
+          </div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">ABTC(APEC) 카드<br>임직원 신청 매뉴얼</div>
+          <div class="menu-card-sub">APEC 기업인 여행카드 발급 자격요건, 개인 서류 준비, 신청 절차 안내</div>
+          <div class="menu-card-footer">
+            <span class="pages">상세 안내 보기</span>
+            <span class="arrow">→</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 복리후생 (준비 중) -->
+      <div class="menu-card coming-soon">
+        <div class="menu-card-head">
+          <div class="menu-card-icon">🏥</div>
+          <div class="menu-card-badges">
+            <span class="badge badge-soon">준비 중</span>
+          </div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">복리후생 안내</div>
+          <div class="menu-card-sub">건강검진, 경조사 지원, 단체보험 등 복리후생 제도 안내</div>
+          <div class="menu-card-footer">
+            <span class="pages">Coming Soon</span>
+            <span class="arrow" style="color:var(--light-gray)">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 법인카드 (준비 중) -->
+      <div class="menu-card coming-soon">
+        <div class="menu-card-head">
+          <div class="menu-card-icon">💼</div>
+          <div class="menu-card-badges">
+            <span class="badge badge-soon">준비 중</span>
+          </div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">법인카드 사용 안내</div>
+          <div class="menu-card-sub">법인카드 사용 기준, 영수증 처리, 한도 및 결제 안내</div>
+          <div class="menu-card-footer">
+            <span class="pages">Coming Soon</span>
+            <span class="arrow" style="color:var(--light-gray)">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 출장 (준비 중) -->
+      <div class="menu-card coming-soon">
+        <div class="menu-card-head">
+          <div class="menu-card-icon">✈️</div>
+          <div class="menu-card-badges">
+            <span class="badge badge-soon">준비 중</span>
+          </div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">출장 처리 안내</div>
+          <div class="menu-card-sub">국내외 출장 신청, 비용 정산, 숙박·교통비 처리 기준 안내</div>
+          <div class="menu-card-footer">
+            <span class="pages">Coming Soon</span>
+            <span class="arrow" style="color:var(--light-gray)">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 비품·소모품 (준비 중) -->
+      <div class="menu-card coming-soon">
+        <div class="menu-card-head">
+          <div class="menu-card-icon">📦</div>
+          <div class="menu-card-badges">
+            <span class="badge badge-soon">준비 중</span>
+          </div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">비품 · 소모품 요청</div>
+          <div class="menu-card-sub">사무용품, 비품 신청 방법 및 처리 절차 안내</div>
+          <div class="menu-card-footer">
+            <span class="pages">Coming Soon</span>
+            <span class="arrow" style="color:var(--light-gray)">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 빈 슬롯 (추가 예정) -->
+      <div class="menu-card coming-soon">
+        <div class="menu-card-head">
+          <div class="menu-card-icon">📋</div>
+          <div class="menu-card-badges">
+            <span class="badge badge-soon">추가 예정</span>
+          </div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">추가 예정</div>
+          <div class="menu-card-sub">경영지원팀에서 순차적으로 업무 매뉴얼을 추가할 예정입니다.</div>
+          <div class="menu-card-footer">
+            <span class="pages">—</span>
+            <span class="arrow" style="color:var(--light-gray)">→</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ② 공지사항 -->
+  <div class="notice-section">
+    <div class="section-header">
+      <div class="section-num">②</div>
+      <div class="section-title">공지사항</div>
+    </div>
+    <div class="notice-list">
+      <!-- 샘플 공지 -->
+      <div class="notice-item">
+        <span class="notice-tag new">NEW</span>
+        <span class="notice-title">
+          ABTC(APEC) 카드 신청 매뉴얼 게시 안내
+          <span class="new-dot"></span>
+        </span>
+        <span class="notice-date">2025.05</span>
+      </div>
+      <div class="notice-item">
+        <span class="notice-tag update">업데이트</span>
+        <span class="notice-title">2025년 4월 21일 이후 신규 ABTC 신청건 모바일(VABTC) 발급 전환</span>
+        <span class="notice-date">2025.04</span>
+      </div>
+      <div class="notice-item">
+        <span class="notice-tag notice">공지</span>
+        <span class="notice-title">경영지원팀 업무 포털 오픈 안내</span>
+        <span class="notice-date">2025.05</span>
+      </div>
+      <!-- 빈 상태 예시 — 공지 추가 시 위 패턴 복사해서 사용 -->
+    </div>
+  </div>
+
+  <!-- ③ 자주 쓰는 바로가기 -->
+  <div class="notice-section">
+    <div class="section-header">
+      <div class="section-num">③</div>
+      <div class="section-title">자주 쓰는 바로가기</div>
+    </div>
+    <div class="quick-grid">
+      <a class="quick-card" href="https://abtc.kita.net" target="_blank">
+        <div class="quick-icon">🌐</div>
+        <div class="quick-label">ABTC 신청 사이트</div>
+        <div class="quick-desc">abtc.kita.net</div>
+      </a>
+      <a class="quick-card" href="https://www.abtc-aps.org/abtc-core/status/check.html" target="_blank">
+        <div class="quick-icon">🔍</div>
+        <div class="quick-label">승인국 조회</div>
+        <div class="quick-desc">abtc-aps.org</div>
+      </a>
+      <a class="quick-card" href="https://www.police.go.kr" target="_blank">
+        <div class="quick-icon">📄</div>
+        <div class="quick-label">범죄경력회보서 발급</div>
+        <div class="quick-desc">경찰청 온라인 발급</div>
+      </a>
+      <div class="quick-card" style="opacity:0.45;cursor:default;">
+        <div class="quick-icon">➕</div>
+        <div class="quick-label">바로가기 추가 예정</div>
+        <div class="quick-desc">—</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-main">업무 진행과 관련된 문의사항은 경영지원팀으로 문의해 주세요.</div>
+  <div class="footer-sub">SAMG · 내부 임직원 전용 페이지 · 외부 공유 금지</div>
+</div>
+
+</body>
+</html>
