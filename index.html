@@ -3,688 +3,891 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAMG 경영지원팀 업무 포털</title>
+<title>SAMG 경영지원팀 포털</title>
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --black: #0a0a0a;
-  --dark: #1a1a1a;
-  --mid: #444;
-  --gray: #888;
-  --light-gray: #ccc;
-  --border: #e0e0e0;
-  --bg: #f7f7f7;
-  --white: #fff;
-  --yellow: #FFF3CD;
-  --yellow-border: #E6C84A;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#0a0a0a;--dark:#1a1a1a;--mid:#444;--gray:#888;
+  --light-gray:#ccc;--border:#e0e0e0;--bg:#f7f7f7;--white:#fff;
+  --yellow:#FFF3CD;--yellow-border:#E6C84A;
+  --admin:#2563eb;--admin-bg:#eff6ff;--admin-border:#bfdbfe;
 }
-
-body {
-  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
-  background: var(--bg);
-  color: var(--black);
-  font-size: 13px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
-}
+body{font-family:'Pretendard','Noto Sans KR',sans-serif;background:var(--bg);color:var(--black);font-size:13px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;}
 
 /* ── HEADER ── */
-.header {
-  background: var(--black);
-  color: var(--white);
-  padding: 0 40px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  border-bottom: 1px solid #222;
-}
-.header-logo {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.header-logo .dot {
-  width: 6px; height: 6px;
-  background: var(--yellow-border);
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.header-nav {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  font-size: 12px;
-  color: var(--light-gray);
-}
-.header-nav a {
-  color: var(--light-gray);
-  text-decoration: none;
-  transition: color 0.15s;
-}
-.header-nav a:hover { color: var(--white); }
-.header-badge {
-  background: #222;
-  border: 1px solid #333;
-  color: var(--gray);
-  font-size: 10px;
-  font-weight: 600;
-  padding: 3px 8px;
-  border-radius: 2px;
-  letter-spacing: 0.08em;
-}
+.header{background:var(--black);color:var(--white);height:52px;display:flex;align-items:center;padding:0 40px;justify-content:space-between;position:sticky;top:0;z-index:200;}
+.header-logo{font-size:13px;font-weight:800;letter-spacing:0.04em;display:flex;align-items:center;gap:8px;}
+.pip{width:6px;height:6px;background:var(--yellow-border);border-radius:50%;}
+.nav-tabs{display:flex;align-items:stretch;height:52px;}
+.nav-tab{display:flex;align-items:center;padding:0 18px;font-size:12px;font-weight:600;color:var(--gray);text-decoration:none;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap;cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;}
+.nav-tab:hover{color:var(--white);}
+.nav-tab.active{color:var(--white);border-bottom-color:var(--yellow-border);}
+.header-badge{font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--gray);border:1px solid #333;padding:3px 8px;border-radius:2px;}
+
+/* ── ADMIN 배너 ── */
+.admin-banner{background:var(--admin-bg);border-bottom:2px solid var(--admin-border);padding:10px 40px;display:none;align-items:center;gap:12px;font-size:12px;color:var(--admin);}
+.admin-banner.on{display:flex;}
+.admin-banner strong{font-weight:800;}
+.admin-banner .spacer{flex:1;}
+.admin-banner button{font-family:inherit;font-size:11px;font-weight:700;padding:5px 14px;border-radius:3px;cursor:pointer;border:none;}
+.btn-save{background:var(--admin);color:#fff;}
+.btn-save:hover{background:#1d4ed8;}
+.btn-exit{background:#fff;color:var(--mid);border:1px solid var(--border) !important;}
+.btn-exit:hover{border-color:var(--black) !important;}
+.btn-add{background:#fff;color:var(--admin);border:1px solid var(--admin-border) !important;}
+.btn-add:hover{background:var(--admin-bg);}
 
 /* ── HERO ── */
-.hero {
-  background: var(--black);
-  color: var(--white);
-  padding: 56px 40px 48px;
-  position: relative;
-  overflow: hidden;
-}
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -80px; right: -80px;
-  width: 400px; height: 400px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.025);
-  pointer-events: none;
-}
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: -40px; left: 30%;
-  width: 200px; height: 200px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.015);
-  pointer-events: none;
-}
-.hero-inner {
-  max-width: 1040px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-.hero-eyebrow {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--gray);
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.hero-eyebrow::before {
-  content: '';
-  display: inline-block;
-  width: 20px; height: 1px;
-  background: var(--gray);
-}
-.hero h1 {
-  font-size: 42px;
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  margin-bottom: 12px;
-}
-.hero h1 em {
-  color: var(--light-gray);
-  font-weight: 300;
-  font-style: normal;
-}
-.hero-desc {
-  font-size: 14px;
-  color: #aaa;
-  font-weight: 300;
-  margin-top: 8px;
-  max-width: 480px;
-  line-height: 1.65;
-}
-.hero-meta {
-  display: flex;
-  gap: 32px;
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px solid #222;
-}
-.hero-meta-item .label {
-  font-size: 10px;
-  color: var(--gray);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 3px;
-}
-.hero-meta-item .value {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--light-gray);
-}
+.hero{background:var(--black);color:var(--white);padding:52px 40px 44px;position:relative;overflow:hidden;flex-shrink:0;}
+.hero::after{content:'';position:absolute;right:-80px;top:-80px;width:360px;height:360px;border-radius:50%;background:rgba(255,255,255,.03);pointer-events:none;}
+.hero-inner{max-width:1000px;margin:0 auto;position:relative;z-index:1;}
+.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gray);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.hero-eyebrow::before{content:'';display:inline-block;width:18px;height:1px;background:var(--gray);}
+.hero h1{font-size:38px;font-weight:900;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px;}
+.hero h1 span{color:var(--light-gray);font-weight:300;}
+.hero-sub{font-size:13px;color:#999;font-weight:300;max-width:440px;line-height:1.65;}
 
-/* ── CONTAINER ── */
-.container {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 48px 40px 80px;
-}
+/* ── MAIN ── */
+.main{flex:1;max-width:1000px;margin:0 auto;width:100%;padding:44px 40px 80px;}
+.section{margin-bottom:52px;}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--black);}
+.section-title{font-size:16px;font-weight:800;letter-spacing:-.02em;}
+.section-hint{margin-left:auto;font-size:10px;color:var(--gray);}
 
-/* ── SECTION HEADER ── */
-.section-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid var(--black);
-}
-.section-num {
-  width: 28px; height: 28px;
-  background: var(--black);
-  color: var(--white);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-.section-title {
-  font-size: 17px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-.section-desc {
-  margin-left: auto;
-  font-size: 11px;
-  color: var(--gray);
-}
+/* ── CARD GRID ── */
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.card{background:var(--white);border:1px solid var(--border);border-radius:4px;overflow:hidden;text-decoration:none;color:var(--black);display:flex;flex-direction:column;transition:border-color .15s,box-shadow .15s;position:relative;}
+.card:not(.disabled):hover{border-color:var(--black);box-shadow:0 4px 14px rgba(0,0,0,.07);}
+.card.disabled{opacity:.45;pointer-events:none;}
+.card-head{background:var(--dark);padding:14px 16px 12px;display:flex;align-items:flex-start;justify-content:space-between;}
+.card-icon{font-size:22px;line-height:1;}
+.card-status-badge{font-size:9px;font-weight:700;letter-spacing:.08em;padding:3px 7px;border-radius:2px;white-space:nowrap;border:none;}
+.s-live{background:var(--yellow);color:#5a3e00;}
+.s-soon{background:#2a2a2a;color:var(--gray);}
+.s-new{background:transparent;color:var(--yellow-border);border:1px solid var(--yellow-border) !important;}
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;}
+.card-title{font-size:13px;font-weight:800;letter-spacing:-.01em;line-height:1.35;margin-bottom:6px;}
+.card-desc{font-size:11px;color:var(--gray);line-height:1.6;flex:1;}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:10px;border-top:1px solid var(--border);font-size:10px;color:var(--light-gray);}
+.card-footer .arrow{font-size:13px;font-weight:700;color:var(--black);}
 
-/* ── MENU GRID ── */
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 48px;
-}
+/* ── 관리자 카드 편집 오버레이 ── */
+.card-edit-overlay{display:none;position:absolute;inset:0;background:rgba(37,99,235,.07);border:2px dashed var(--admin);border-radius:4px;z-index:10;flex-direction:column;gap:6px;padding:10px;}
+.admin-on .card .card-edit-overlay{display:flex;}
+.admin-on .card{cursor:default;pointer-events:auto;opacity:1;}
+.admin-on .card:not(.disabled):hover{border-color:var(--border);box-shadow:none;}
+.edit-row{display:flex;gap:6px;align-items:center;}
+.edit-label{font-size:9px;font-weight:700;color:var(--admin);width:36px;flex-shrink:0;letter-spacing:.05em;}
+.edit-input{font-family:inherit;font-size:11px;border:1px solid var(--admin-border);border-radius:3px;padding:4px 8px;width:100%;background:#fff;color:var(--black);outline:none;}
+.edit-input:focus{border-color:var(--admin);}
+.edit-select{font-family:inherit;font-size:11px;border:1px solid var(--admin-border);border-radius:3px;padding:4px 6px;background:#fff;color:var(--black);outline:none;cursor:pointer;}
+.edit-row-btns{display:flex;gap:6px;margin-top:4px;}
+.btn-card-apply{font-family:inherit;font-size:10px;font-weight:700;padding:4px 10px;border-radius:3px;border:none;cursor:pointer;background:var(--admin);color:#fff;}
+.btn-card-apply:hover{background:#1d4ed8;}
+.btn-card-delete{font-family:inherit;font-size:10px;font-weight:700;padding:4px 10px;border-radius:3px;border:1px solid #fecaca;cursor:pointer;background:#fff;color:#dc2626;}
+.btn-card-delete:hover{background:#fef2f2;}
 
-/* ── MENU CARD ── */
-.menu-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-  text-decoration: none;
-  color: var(--black);
-  transition: border-color 0.15s, box-shadow 0.15s;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  position: relative;
-}
-.menu-card:hover {
-  border-color: var(--black);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-}
-.menu-card.active {
-  border-color: var(--black);
-}
-.menu-card.coming-soon {
-  opacity: 0.5;
-  cursor: default;
-  pointer-events: none;
-}
-.menu-card-head {
-  background: var(--dark);
-  color: var(--white);
-  padding: 14px 16px 12px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-}
-.menu-card-icon {
-  font-size: 22px;
-  line-height: 1;
-  flex-shrink: 0;
-}
-.menu-card-badges {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-}
-.badge {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 2px 6px;
-  border-radius: 2px;
-}
-.badge-live {
-  background: var(--yellow);
-  color: #5a3e00;
-}
-.badge-soon {
-  background: #333;
-  color: var(--gray);
-}
-.badge-new {
-  background: #1a1a1a;
-  color: var(--yellow-border);
-  border: 1px solid var(--yellow-border);
-}
-.menu-card-body {
-  padding: 14px 16px 16px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-.menu-card-title {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  margin-bottom: 6px;
-  line-height: 1.3;
-}
-.menu-card-sub {
-  font-size: 11px;
-  color: var(--gray);
-  line-height: 1.6;
-  flex: 1;
-}
-.menu-card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 14px;
-  padding-top: 10px;
-  border-top: 1px solid var(--border);
-  font-size: 11px;
-  color: var(--mid);
-}
-.menu-card-footer .arrow {
-  font-size: 14px;
-  color: var(--black);
-  font-weight: 700;
-}
-.menu-card-footer .pages {
-  font-size: 10px;
-  color: var(--light-gray);
-  letter-spacing: 0.05em;
-}
+/* ── NOTICE ── */
+.notice-list{background:var(--white);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+.notice-item{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--border);font-size:12px;text-decoration:none;color:var(--black);transition:background .1s;position:relative;}
+.notice-item:last-child{border-bottom:none;}
+.notice-item:not(.admin-on .notice-item):hover{background:#fafafa;}
+.notice-tag{font-size:9px;font-weight:700;letter-spacing:.08em;padding:2px 7px;border-radius:2px;white-space:nowrap;flex-shrink:0;}
+.t-new{background:var(--black);color:#fff;}
+.t-notice{background:#f0f0f0;color:var(--mid);}
+.t-update{background:var(--yellow);color:#5a3e00;}
+.notice-text{flex:1;font-weight:500;}
+.notice-dot{display:inline-block;width:5px;height:5px;background:var(--yellow-border);border-radius:50%;margin-left:6px;vertical-align:middle;}
+.notice-date{font-size:10px;color:var(--light-gray);flex-shrink:0;}
 
-/* ── NOTICE SECTION ── */
-.notice-section {
-  margin-bottom: 48px;
-}
-.notice-list {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-}
-.notice-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--border);
-  font-size: 12px;
-  line-height: 1.5;
-  text-decoration: none;
-  color: var(--black);
-  transition: background 0.12s;
-}
-.notice-item:last-child { border-bottom: none; }
-.notice-item:hover { background: #fafafa; }
-.notice-tag {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  padding: 2px 7px;
-  border-radius: 2px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.notice-tag.update { background: var(--yellow); color: #5a3e00; }
-.notice-tag.notice { background: #f0f0f0; color: var(--mid); }
-.notice-tag.new { background: var(--black); color: var(--white); }
-.notice-title {
-  flex: 1;
-  font-weight: 500;
-}
-.notice-title .new-dot {
-  display: inline-block;
-  width: 5px; height: 5px;
-  background: var(--yellow-border);
-  border-radius: 50%;
-  margin-left: 6px;
-  vertical-align: middle;
-}
-.notice-date {
-  font-size: 10px;
-  color: var(--light-gray);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.notice-empty {
-  padding: 32px;
-  text-align: center;
-  color: var(--light-gray);
-  font-size: 12px;
-}
+/* 공지 편집 컨트롤 */
+.notice-edit-controls{display:none;align-items:center;gap:6px;margin-left:8px;}
+.admin-on .notice-edit-controls{display:flex;}
+.admin-on .notice-item{background:#fafeff;}
+.admin-on .notice-item:hover{background:#f0f8ff;}
+.btn-notice-del{font-size:11px;color:#dc2626;cursor:pointer;background:none;border:none;font-family:inherit;padding:2px 6px;border-radius:2px;flex-shrink:0;}
+.btn-notice-del:hover{background:#fef2f2;}
+.notice-editable{flex:1;font-weight:500;cursor:text;border:1px solid transparent;border-radius:3px;padding:2px 6px;}
+.admin-on .notice-editable{border-color:var(--admin-border);background:#fff;cursor:text;outline:none;}
+.admin-on .notice-editable:focus{border-color:var(--admin);}
+.notice-date-edit{font-size:10px;color:var(--light-gray);cursor:text;border:1px solid transparent;border-radius:2px;padding:2px 4px;width:60px;font-family:inherit;background:transparent;}
+.admin-on .notice-date-edit{border-color:var(--admin-border);background:#fff;outline:none;}
+.admin-on .notice-date-edit:focus{border-color:var(--admin);}
+.notice-tag-select{display:none;font-family:inherit;font-size:9px;padding:2px 4px;border:1px solid var(--admin-border);border-radius:2px;cursor:pointer;outline:none;background:#fff;}
+.admin-on .notice-tag-select{display:inline-block;}
+.admin-on .notice-tag{display:none;}
+.notice-empty{padding:36px;text-align:center;color:var(--light-gray);font-size:12px;background:var(--white);border:1px dashed var(--border);border-radius:4px;}
 
 /* ── QUICK LINKS ── */
-.quick-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-bottom: 48px;
-}
-.quick-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 16px 14px;
-  text-align: center;
-  text-decoration: none;
-  color: var(--black);
-  transition: border-color 0.15s;
-  display: block;
-}
-.quick-card:hover { border-color: var(--black); }
-.quick-icon { font-size: 20px; margin-bottom: 6px; }
-.quick-label { font-size: 11px; font-weight: 700; margin-bottom: 2px; }
-.quick-desc { font-size: 10px; color: var(--gray); }
+.quick-list{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.quick-item{background:var(--white);border:1px solid var(--border);border-radius:4px;padding:16px 14px 14px;text-align:center;text-decoration:none;color:var(--black);transition:border-color .15s;display:block;position:relative;}
+.quick-item:not(.admin-on .quick-item):hover{border-color:var(--black);}
+.quick-item.disabled{opacity:.35;pointer-events:none;}
+.quick-icon{font-size:20px;margin-bottom:6px;}
+.quick-label{font-size:11px;font-weight:700;margin-bottom:2px;}
+.quick-url{font-size:10px;color:var(--gray);}
+
+/* 빠른링크 편집 오버레이 */
+.quick-edit-overlay{display:none;position:absolute;inset:0;background:rgba(37,99,235,.06);border:2px dashed var(--admin);border-radius:4px;z-index:10;flex-direction:column;gap:5px;padding:8px;}
+.admin-on .quick-item .quick-edit-overlay{display:flex;}
+.admin-on .quick-item{cursor:default;pointer-events:auto;opacity:1;}
+.admin-on .quick-item:hover{border-color:var(--border);}
+.qedit-input{font-family:inherit;font-size:10px;border:1px solid var(--admin-border);border-radius:3px;padding:3px 6px;width:100%;background:#fff;color:var(--black);outline:none;text-align:left;}
+.qedit-input:focus{border-color:var(--admin);}
+.qedit-btns{display:flex;gap:4px;margin-top:2px;}
+.btn-qapply{font-family:inherit;font-size:9px;font-weight:700;padding:3px 8px;border-radius:2px;border:none;cursor:pointer;background:var(--admin);color:#fff;flex:1;}
+.btn-qdel{font-family:inherit;font-size:9px;font-weight:700;padding:3px 8px;border-radius:2px;border:1px solid #fecaca;cursor:pointer;background:#fff;color:#dc2626;}
+
+/* ── 관리자 잠금 버튼 ── */
+.lock-btn{position:fixed;bottom:28px;right:28px;width:44px;height:44px;border-radius:50%;background:var(--black);color:#fff;font-size:18px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:999;transition:background .15s;}
+.lock-btn:hover{background:#333;}
+.lock-btn.unlocked{background:var(--admin);}
+
+/* ── 모달 ── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;align-items:center;justify-content:center;}
+.modal-bg.on{display:flex;}
+.modal{background:#fff;border-radius:6px;padding:32px 28px 24px;width:320px;box-shadow:0 24px 60px rgba(0,0,0,.2);}
+.modal h2{font-size:16px;font-weight:800;margin-bottom:6px;}
+.modal p{font-size:12px;color:var(--gray);margin-bottom:20px;line-height:1.6;}
+.modal-input{width:100%;font-family:inherit;font-size:13px;border:1.5px solid var(--border);border-radius:4px;padding:10px 12px;outline:none;margin-bottom:10px;}
+.modal-input:focus{border-color:var(--admin);}
+.modal-err{font-size:11px;color:#dc2626;min-height:16px;margin-bottom:10px;}
+.modal-btns{display:flex;gap:8px;}
+.btn-modal-confirm{font-family:inherit;font-size:12px;font-weight:700;flex:1;padding:10px;border:none;border-radius:4px;cursor:pointer;background:var(--black);color:#fff;}
+.btn-modal-confirm:hover{background:#222;}
+.btn-modal-cancel{font-family:inherit;font-size:12px;font-weight:600;flex:1;padding:10px;border:1px solid var(--border);border-radius:4px;cursor:pointer;background:#fff;color:var(--mid);}
+
+/* ── 모달(카드 추가) ── */
+.add-modal{width:380px;}
+.add-modal .form-row{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;}
+.add-modal label{font-size:10px;font-weight:700;color:var(--mid);letter-spacing:.05em;}
+.add-modal input,.add-modal select,.add-modal textarea{font-family:inherit;font-size:12px;border:1.5px solid var(--border);border-radius:4px;padding:8px 10px;outline:none;width:100%;}
+.add-modal input:focus,.add-modal select:focus,.add-modal textarea:focus{border-color:var(--admin);}
+.add-modal textarea{resize:vertical;min-height:60px;}
 
 /* ── FOOTER ── */
-.footer {
-  background: var(--black);
-  color: var(--white);
-  padding: 24px 40px;
-  text-align: center;
-}
-.footer-main {
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-.footer-sub {
-  font-size: 11px;
-  color: var(--gray);
+.footer{background:var(--black);color:#fff;padding:22px 40px;text-align:center;flex-shrink:0;}
+.footer-main{font-size:13px;font-weight:700;margin-bottom:5px;}
+.footer-sub{font-size:11px;color:var(--gray);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:84px;right:28px;background:var(--black);color:#fff;font-size:12px;font-weight:600;padding:10px 18px;border-radius:4px;z-index:1001;opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+
+@media(max-width:720px){
+  .header{padding:0 16px;}.nav-tabs{display:none;}
+  .hero{padding:36px 20px 32px;}.hero h1{font-size:26px;}
+  .main{padding:28px 16px 60px;}
+  .card-grid{grid-template-columns:1fr;}
+  .quick-list{grid-template-columns:repeat(2,1fr);}
+  .footer{padding:20px 16px;}
+  .lock-btn{bottom:16px;right:16px;}
 }
 
-/* ── PLACEHOLDER ── */
-.placeholder-bar {
-  background: repeating-linear-gradient(
-    -45deg,
-    #f5f5f5,
-    #f5f5f5 4px,
-    #ebebeb 4px,
-    #ebebeb 8px
-  );
-  border: 1px dashed var(--border);
+/* ══════════════════════════════════
+   잠금화면
+══════════════════════════════════ */
+#lockScreen {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #0a0a0a;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  transition: opacity .4s, visibility .4s;
+}
+#lockScreen.hidden {
+  opacity: 0; visibility: hidden; pointer-events: none;
+}
+
+/* 배경 패턴 */
+#lockScreen::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+/* 빛 번짐 */
+#lockScreen::after {
+  content: '';
+  position: absolute;
+  top: -160px; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse at center, rgba(230,200,74,.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.ls-card {
+  position: relative; z-index: 1;
+  color: #fff;
+  width: 360px;
+  background: #111;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 44px 36px 36px;
+  box-shadow: 0 32px 80px rgba(0,0,0,.6);
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0;
+}
+
+/* 로고 마크 */
+.ls-mark {
+  width: 52px; height: 52px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.ls-mark::after {
+  content: '';
+  position: absolute; inset: -1px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(230,200,74,.3), transparent 60%);
+  pointer-events: none;
+}
+
+.ls-title {
+  font-size: 18px; font-weight: 900;
+  color: #fff; letter-spacing: -.02em;
+  margin-bottom: 4px; text-align: center;
+}
+.ls-sub {
+  font-size: 11px; color: #aaa;
+  letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: 32px; text-align: center;
+}
+
+/* 입력 영역 */
+.ls-input-wrap {
+  width: 100%; position: relative; margin-bottom: 10px;
+}
+.ls-input {
+  width: 100%;
+  font-family: 'Pretendard','Noto Sans KR',sans-serif;
+  font-size: 14px; font-weight: 600;
+  background: #0d0d0d;
+  border: 1.5px solid #2a2a2a;
+  border-radius: 5px;
+  color: #fff;
+  padding: 13px 48px 13px 16px;
+  outline: none;
+  letter-spacing: .1em;
+  transition: border-color .2s;
+}
+.ls-input::placeholder { color: #555; letter-spacing: .05em; font-weight: 400; }
+.ls-input:focus { border-color: #E6C84A; }
+.ls-input.error { border-color: #ef4444; animation: shake .3s ease; }
+
+.ls-eye {
+  position: absolute; right: 14px; top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer; color: #444; font-size: 16px;
+  background: none; border: none;
+  transition: color .15s;
+}
+.ls-eye:hover { color: #888; }
+
+/* 에러 메시지 */
+.ls-err {
+  font-size: 11px; color: #ef4444;
+  min-height: 16px; margin-bottom: 14px;
+  width: 100%; text-align: left;
+  padding-left: 2px;
+}
+
+/* 로그인 버튼 */
+.ls-btn {
+  width: 100%;
+  font-family: 'Pretendard','Noto Sans KR',sans-serif;
+  font-size: 13px; font-weight: 800;
+  padding: 13px;
+  border: none; border-radius: 5px;
+  background: #fff; color: #0a0a0a;
+  cursor: pointer; letter-spacing: .02em;
+  transition: background .15s, transform .1s;
+}
+.ls-btn:hover { background: #e8e8e8; }
+.ls-btn:active { transform: scale(.98); }
+
+/* 힌트 */
+.ls-hint {
+  margin-top: 24px;
+  font-size: 10px; color: #aaa;
+  text-align: center; line-height: 1.6;
+  letter-spacing: .04em;
+}
+
+@keyframes shake {
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
+}
+
+/* 관리자 모드 - 비밀번호 변경 패널 */
+.pw-change-panel {
+  background: #fff8e1;
+  border: 1.5px solid var(--yellow-border);
   border-radius: 4px;
-  padding: 24px;
-  text-align: center;
-  color: var(--light-gray);
-  font-size: 12px;
-  margin-bottom: 12px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  display: none;
 }
+.pw-change-panel.on { display: block; }
+.pw-change-panel h4 {
+  font-size: 12px; font-weight: 800;
+  margin-bottom: 10px; color: #5a3e00;
+}
+.pw-change-row {
+  display: flex; gap: 8px; align-items: center; margin-bottom: 8px;
+}
+.pw-change-row label {
+  font-size: 10px; font-weight: 700;
+  color: var(--mid); width: 76px; flex-shrink: 0;
+}
+.pw-change-row input {
+  font-family: inherit; font-size: 12px;
+  border: 1.5px solid var(--border); border-radius: 3px;
+  padding: 6px 10px; flex: 1; outline: none;
+}
+.pw-change-row input:focus { border-color: var(--admin); }
+.btn-pw-save {
+  font-family: inherit; font-size: 11px; font-weight: 700;
+  padding: 7px 16px; border: none; border-radius: 3px;
+  background: var(--black); color: #fff; cursor: pointer;
+  margin-top: 4px;
+}
+.btn-pw-save:hover { background: #333; }
+.pw-change-msg { font-size: 11px; color: #16a34a; margin-top: 6px; min-height: 14px; }
 
-@media (max-width: 760px) {
-  .header { padding: 0 16px; }
-  .hero { padding: 40px 20px 36px; }
-  .hero h1 { font-size: 28px; }
-  .container { padding: 32px 16px 60px; }
-  .menu-grid { grid-template-columns: 1fr; }
-  .quick-grid { grid-template-columns: repeat(2, 1fr); }
-  .hero-meta { flex-wrap: wrap; gap: 16px; }
-}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="header-logo">
-    <div class="dot"></div>
-    SAMG · 경영지원팀
-  </div>
-  <div class="header-nav">
-    <a href="#">공지사항</a>
-    <a href="#">문의하기</a>
-    <span class="header-badge">INTERNAL ONLY</span>
+<!-- ══════════════════════════════════
+     잠금화면 (진입 시 표시)
+══════════════════════════════════ -->
+<div id="lockScreen">
+  <div class="ls-card">
+    <div class="ls-mark">🔒</div>
+    <div class="ls-title">SAMG 경영지원팀</div>
+    <div class="ls-sub">Internal Portal · Access Required</div>
+
+    <div class="ls-input-wrap">
+      <input class="ls-input" id="lsInput" type="password"
+        placeholder="비밀번호를 입력하세요"
+        onkeydown="if(event.key==='Enter')lsLogin()">
+      <button class="ls-eye" id="lsEye" onclick="lsToggleEye()">👁</button>
+    </div>
+    <div class="ls-err" id="lsErr"></div>
+    <button class="ls-btn" onclick="lsLogin()">입장</button>
+
+    <div class="ls-hint">
+      SAMG 임직원 전용 페이지입니다.<br>
+      비밀번호 문의: 경영지원팀 담당자
+    </div>
   </div>
 </div>
 
-<!-- HERO -->
+
+<!-- ── HEADER ── -->
+<div class="header">
+  <div class="header-logo"><div class="pip"></div>SAMG · 경영지원팀</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('manuals')">업무 매뉴얼</button>
+    <button class="nav-tab" onclick="showSection('notices')">공지사항</button>
+    <button class="nav-tab" onclick="showSection('links')">바로가기</button>
+  </div>
+  <span class="header-badge">INTERNAL ONLY</span>
+</div>
+
+<!-- ── 관리자 배너 ── -->
+<div class="admin-banner" id="adminBanner">
+  <span>🔓</span>
+  <strong>관리자 편집 모드</strong>
+  <span style="font-size:11px;color:var(--admin)">카드·공지·링크를 수정한 뒤 저장하세요.</span>
+  <span class="spacer"></span>
+  <button class="btn-add" onclick="openAddModal('card')">+ 카드 추가</button>
+  <button class="btn-add" onclick="openAddModal('notice')" style="margin-left:4px">+ 공지 추가</button>
+  <button class="btn-add" onclick="openAddModal('quick')" style="margin-left:4px">+ 링크 추가</button>
+  <button class="btn-save" onclick="saveAll()" style="margin-left:12px">💾 저장</button>
+  <button class="btn-add" onclick="togglePwPanel()" style="margin-left:4px">🔑 비밀번호 변경</button>
+  <button class="btn-exit" onclick="exitAdmin()" style="margin-left:6px">잠금</button>
+</div>
+
+
+<!-- 비밀번호 변경 패널 -->
+<div class="pw-change-panel" id="pwChangePanel">
+  <h4>🔑 포털 입장 비밀번호 변경</h4>
+  <div class="pw-change-row">
+    <label>현재 비밀번호</label>
+    <input type="password" id="pwCurr" placeholder="현재 비밀번호">
+  </div>
+  <div class="pw-change-row">
+    <label>새 비밀번호</label>
+    <input type="password" id="pwNew" placeholder="새 비밀번호">
+  </div>
+  <div class="pw-change-row">
+    <label>비밀번호 확인</label>
+    <input type="password" id="pwNewConfirm" placeholder="새 비밀번호 재입력">
+  </div>
+  <button class="btn-pw-save" onclick="changePortalPw()">변경 저장</button>
+  <div class="pw-change-msg" id="pwChangeMsg"></div>
+</div>
+
+<!-- ── HERO ── -->
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-eyebrow">경영지원팀 업무 포털</div>
-    <h1>임직원 업무 안내<br><em>매뉴얼 & 가이드</em></h1>
-    <div class="hero-desc">
-      경영지원팀에서 제공하는 업무 안내 자료를 한 곳에서 확인하세요.
-      각 매뉴얼을 클릭하면 상세 안내 페이지로 이동합니다.
-    </div>
-    <div class="hero-meta">
-      <div class="hero-meta-item">
-        <div class="label">담당부서</div>
-        <div class="value">경영지원팀</div>
-      </div>
-      <div class="hero-meta-item">
-        <div class="label">최종 업데이트</div>
-        <div class="value">2025년 5월</div>
-      </div>
-      <div class="hero-meta-item">
-        <div class="label">문의</div>
-        <div class="value">경영지원팀 담당자</div>
-      </div>
-    </div>
+    <h1>임직원 업무 안내<br><span>매뉴얼 & 가이드</span></h1>
+    <div class="hero-sub">경영지원팀에서 제공하는 업무 안내 자료를 한 곳에서 확인하세요.</div>
   </div>
 </div>
 
-<div class="container">
+<!-- ── MAIN ── -->
+<div class="main">
 
   <!-- ① 업무 매뉴얼 -->
-  <div class="notice-section">
+  <div class="section" id="sec-manuals">
     <div class="section-header">
-      <div class="section-num">①</div>
       <div class="section-title">업무 매뉴얼</div>
-      <div class="section-desc">클릭하여 상세 페이지로 이동</div>
+      <div class="section-hint" id="card-hint"></div>
     </div>
-
-    <div class="menu-grid">
-
-      <!-- ABTC 카드 매뉴얼 (완성) -->
-      <a class="menu-card active" href="abtc_manual.html">
-        <div class="menu-card-head">
-          <div class="menu-card-icon">💳</div>
-          <div class="menu-card-badges">
-            <span class="badge badge-live">LIVE</span>
-          </div>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">ABTC(APEC) 카드<br>임직원 신청 매뉴얼</div>
-          <div class="menu-card-sub">APEC 기업인 여행카드 발급 자격요건, 개인 서류 준비, 신청 절차 안내</div>
-          <div class="menu-card-footer">
-            <span class="pages">상세 안내 보기</span>
-            <span class="arrow">→</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- 복리후생 (준비 중) -->
-      <div class="menu-card coming-soon">
-        <div class="menu-card-head">
-          <div class="menu-card-icon">🏥</div>
-          <div class="menu-card-badges">
-            <span class="badge badge-soon">준비 중</span>
-          </div>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">복리후생 안내</div>
-          <div class="menu-card-sub">건강검진, 경조사 지원, 단체보험 등 복리후생 제도 안내</div>
-          <div class="menu-card-footer">
-            <span class="pages">Coming Soon</span>
-            <span class="arrow" style="color:var(--light-gray)">→</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 법인카드 (준비 중) -->
-      <div class="menu-card coming-soon">
-        <div class="menu-card-head">
-          <div class="menu-card-icon">💼</div>
-          <div class="menu-card-badges">
-            <span class="badge badge-soon">준비 중</span>
-          </div>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">법인카드 사용 안내</div>
-          <div class="menu-card-sub">법인카드 사용 기준, 영수증 처리, 한도 및 결제 안내</div>
-          <div class="menu-card-footer">
-            <span class="pages">Coming Soon</span>
-            <span class="arrow" style="color:var(--light-gray)">→</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 출장 (준비 중) -->
-      <div class="menu-card coming-soon">
-        <div class="menu-card-head">
-          <div class="menu-card-icon">✈️</div>
-          <div class="menu-card-badges">
-            <span class="badge badge-soon">준비 중</span>
-          </div>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">출장 처리 안내</div>
-          <div class="menu-card-sub">국내외 출장 신청, 비용 정산, 숙박·교통비 처리 기준 안내</div>
-          <div class="menu-card-footer">
-            <span class="pages">Coming Soon</span>
-            <span class="arrow" style="color:var(--light-gray)">→</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 비품·소모품 (준비 중) -->
-      <div class="menu-card coming-soon">
-        <div class="menu-card-head">
-          <div class="menu-card-icon">📦</div>
-          <div class="menu-card-badges">
-            <span class="badge badge-soon">준비 중</span>
-          </div>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">비품 · 소모품 요청</div>
-          <div class="menu-card-sub">사무용품, 비품 신청 방법 및 처리 절차 안내</div>
-          <div class="menu-card-footer">
-            <span class="pages">Coming Soon</span>
-            <span class="arrow" style="color:var(--light-gray)">→</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 빈 슬롯 (추가 예정) -->
-      <div class="menu-card coming-soon">
-        <div class="menu-card-head">
-          <div class="menu-card-icon">📋</div>
-          <div class="menu-card-badges">
-            <span class="badge badge-soon">추가 예정</span>
-          </div>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">추가 예정</div>
-          <div class="menu-card-sub">경영지원팀에서 순차적으로 업무 매뉴얼을 추가할 예정입니다.</div>
-          <div class="menu-card-footer">
-            <span class="pages">—</span>
-            <span class="arrow" style="color:var(--light-gray)">→</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    <div class="card-grid" id="cardGrid"></div>
   </div>
 
   <!-- ② 공지사항 -->
-  <div class="notice-section">
+  <div class="section" id="sec-notices">
     <div class="section-header">
-      <div class="section-num">②</div>
       <div class="section-title">공지사항</div>
     </div>
-    <div class="notice-list">
-      <!-- 샘플 공지 -->
-      <div class="notice-item">
-        <span class="notice-tag new">NEW</span>
-        <span class="notice-title">
-          ABTC(APEC) 카드 신청 매뉴얼 게시 안내
-          <span class="new-dot"></span>
-        </span>
-        <span class="notice-date">2025.05</span>
-      </div>
-      <div class="notice-item">
-        <span class="notice-tag update">업데이트</span>
-        <span class="notice-title">2025년 4월 21일 이후 신규 ABTC 신청건 모바일(VABTC) 발급 전환</span>
-        <span class="notice-date">2025.04</span>
-      </div>
-      <div class="notice-item">
-        <span class="notice-tag notice">공지</span>
-        <span class="notice-title">경영지원팀 업무 포털 오픈 안내</span>
-        <span class="notice-date">2025.05</span>
-      </div>
-      <!-- 빈 상태 예시 — 공지 추가 시 위 패턴 복사해서 사용 -->
-    </div>
+    <div id="noticeContainer"></div>
   </div>
 
-  <!-- ③ 자주 쓰는 바로가기 -->
-  <div class="notice-section">
+  <!-- ③ 바로가기 -->
+  <div class="section" id="sec-links">
     <div class="section-header">
-      <div class="section-num">③</div>
       <div class="section-title">자주 쓰는 바로가기</div>
     </div>
-    <div class="quick-grid">
-      <a class="quick-card" href="https://abtc.kita.net" target="_blank">
-        <div class="quick-icon">🌐</div>
-        <div class="quick-label">ABTC 신청 사이트</div>
-        <div class="quick-desc">abtc.kita.net</div>
-      </a>
-      <a class="quick-card" href="https://www.abtc-aps.org/abtc-core/status/check.html" target="_blank">
-        <div class="quick-icon">🔍</div>
-        <div class="quick-label">승인국 조회</div>
-        <div class="quick-desc">abtc-aps.org</div>
-      </a>
-      <a class="quick-card" href="https://www.police.go.kr" target="_blank">
-        <div class="quick-icon">📄</div>
-        <div class="quick-label">범죄경력회보서 발급</div>
-        <div class="quick-desc">경찰청 온라인 발급</div>
-      </a>
-      <div class="quick-card" style="opacity:0.45;cursor:default;">
-        <div class="quick-icon">➕</div>
-        <div class="quick-label">바로가기 추가 예정</div>
-        <div class="quick-desc">—</div>
-      </div>
-    </div>
+    <div class="quick-list" id="quickList"></div>
   </div>
 
 </div>
 
-<!-- FOOTER -->
+<!-- ── FOOTER ── -->
 <div class="footer">
   <div class="footer-main">업무 진행과 관련된 문의사항은 경영지원팀으로 문의해 주세요.</div>
-  <div class="footer-sub">SAMG · 내부 임직원 전용 페이지 · 외부 공유 금지</div>
+  <div class="footer-sub">SAMG · 내부 임직원 전용 · 외부 공유 금지</div>
 </div>
 
+<!-- ── 잠금 버튼 ── -->
+<button class="lock-btn" id="lockBtn" onclick="toggleAdmin()" title="관리자 모드">🔒</button>
+
+<!-- ── Toast ── -->
+<div class="toast" id="toast"></div>
+
+<!-- ── 비밀번호 모달 ── -->
+<div class="modal-bg" id="pwModal">
+  <div class="modal">
+    <h2>관리자 인증</h2>
+    <p>관리자 비밀번호를 입력하세요.<br>기본 비밀번호: <strong>samg1234</strong></p>
+    <input class="modal-input" id="pwInput" type="password" placeholder="비밀번호" onkeydown="if(event.key==='Enter')checkPw()">
+    <div class="modal-err" id="pwErr"></div>
+    <div class="modal-btns">
+      <button class="btn-modal-cancel" onclick="closePwModal()">취소</button>
+      <button class="btn-modal-confirm" onclick="checkPw()">확인</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── 항목 추가 모달 ── -->
+<div class="modal-bg" id="addModal">
+  <div class="modal add-modal">
+    <h2 id="addModalTitle">항목 추가</h2>
+    <div id="addModalBody"></div>
+    <div class="modal-btns" style="margin-top:8px">
+      <button class="btn-modal-cancel" onclick="closeAddModal()">취소</button>
+      <button class="btn-modal-confirm" onclick="confirmAdd()">추가</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   설정: 관리자 비밀번호 변경은 아래 한 줄만 수정하세요
+═══════════════════════════════════════ */
+const ADMIN_PW = 'samg1234';
+
+/* ── 기본 데이터 ── */
+const DEFAULT_CARDS = [
+  { id:'c1', icon:'💳', status:'live', title:'ABTC(APEC) 카드\n임직원 신청 매뉴얼', desc:'APEC 기업인 여행카드 발급 자격요건, 개인 서류 준비, 신청 절차 안내', link:'abtc_manual.html', linkLabel:'상세 안내 보기' },
+  { id:'c2', icon:'🏥', status:'soon', title:'복리후생 안내', desc:'건강검진, 경조사 지원, 단체보험 등 복리후생 제도 안내', link:'', linkLabel:'' },
+  { id:'c3', icon:'💼', status:'soon', title:'법인카드 사용 안내', desc:'법인카드 사용 기준, 영수증 처리, 한도 및 결제 안내', link:'', linkLabel:'' },
+  { id:'c4', icon:'✈️', status:'soon', title:'출장 처리 안내', desc:'국내외 출장 신청, 비용 정산, 숙박·교통비 처리 기준 안내', link:'', linkLabel:'' },
+  { id:'c5', icon:'📦', status:'soon', title:'비품·소모품 요청', desc:'사무용품, 비품 신청 방법 및 처리 절차 안내', link:'', linkLabel:'' },
+  { id:'c6', icon:'📋', status:'soon', title:'추가 예정', desc:'경영지원팀에서 순차적으로 업무 매뉴얼을 추가할 예정입니다.', link:'', linkLabel:'' },
+];
+const DEFAULT_NOTICES = [
+  { id:'n1', tag:'new', text:'ABTC(APEC) 카드 신청 매뉴얼 게시 안내', date:'2025.05', dot:true },
+  { id:'n2', tag:'update', text:'2025년 4월 21일 이후 신규 ABTC 신청건 모바일(VABTC) 발급 전환', date:'2025.04', dot:false },
+  { id:'n3', tag:'notice', text:'경영지원팀 업무 포털 오픈 안내', date:'2025.05', dot:false },
+];
+const DEFAULT_QUICK = [
+  { id:'q1', icon:'🌐', label:'ABTC 신청 사이트', url:'abtc.kita.net', href:'https://abtc.kita.net', disabled:false },
+  { id:'q2', icon:'🔍', label:'승인국 조회', url:'abtc-aps.org', href:'https://www.abtc-aps.org/abtc-core/status/check.html', disabled:false },
+  { id:'q3', icon:'📄', label:'범죄경력회보서 발급', url:'경찰청 온라인 발급', href:'https://www.police.go.kr', disabled:false },
+  { id:'q4', icon:'➕', label:'바로가기 추가 예정', url:'—', href:'', disabled:true },
+];
+
+/* ── 상태 ── */
+let isAdmin = false;
+let addType = '';
+let data = { cards:[], notices:[], quick:[] };
+
+/* ── localStorage 로드/저장 ── */
+function loadData(){
+  try {
+    const s = localStorage.getItem('samg_portal_data');
+    if(s) data = JSON.parse(s);
+    else data = { cards: JSON.parse(JSON.stringify(DEFAULT_CARDS)), notices: JSON.parse(JSON.stringify(DEFAULT_NOTICES)), quick: JSON.parse(JSON.stringify(DEFAULT_QUICK)) };
+  } catch(e) {
+    data = { cards: JSON.parse(JSON.stringify(DEFAULT_CARDS)), notices: JSON.parse(JSON.stringify(DEFAULT_NOTICES)), quick: JSON.parse(JSON.stringify(DEFAULT_QUICK)) };
+  }
+}
+function saveAll(){
+  localStorage.setItem('samg_portal_data', JSON.stringify(data));
+  showToast('💾 저장되었습니다');
+}
+
+/* ── 렌더 ── */
+function render(){
+  renderCards();
+  renderNotices();
+  renderQuick();
+}
+
+function statusLabel(s){ return s==='live'?'LIVE':s==='new'?'NEW':'준비 중'; }
+function statusClass(s){ return s==='live'?'s-live':s==='new'?'s-new':'s-soon'; }
+
+function renderCards(){
+  const grid = document.getElementById('cardGrid');
+  const hint = document.getElementById('card-hint');
+  hint.textContent = isAdmin ? '카드를 클릭하여 편집' : '';
+  grid.innerHTML = data.cards.map(c => {
+    const disabled = c.status==='soon' && !isAdmin;
+    const hasLink = c.link && c.link.trim();
+    const titleHtml = c.title.replace(/\n/g,'<br>');
+    return `
+    <${hasLink && !isAdmin ? 'a href="'+c.link+'"' : 'div'} class="card${disabled?' disabled':''}" data-id="${c.id}">
+      <div class="card-head">
+        <div class="card-icon">${c.icon}</div>
+        <span class="card-status-badge ${statusClass(c.status)}">${statusLabel(c.status)}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${titleHtml}</div>
+        <div class="card-desc">${c.desc}</div>
+        ${hasLink||c.linkLabel ? `<div class="card-footer"><span>${c.linkLabel||'상세 안내 보기'}</span><span class="arrow">→</span></div>` : ''}
+      </div>
+      <!-- 관리자 편집 오버레이 -->
+      <div class="card-edit-overlay">
+        <div class="edit-row"><span class="edit-label">아이콘</span><input class="edit-input" value="${c.icon}" placeholder="이모지" data-field="icon"></div>
+        <div class="edit-row"><span class="edit-label">제목</span><input class="edit-input" value="${c.title.replace(/\n/,' ')}" placeholder="제목" data-field="title"></div>
+        <div class="edit-row"><span class="edit-label">설명</span><input class="edit-input" value="${c.desc}" placeholder="설명" data-field="desc"></div>
+        <div class="edit-row"><span class="edit-label">링크</span><input class="edit-input" value="${c.link||''}" placeholder="파일명 또는 URL" data-field="link"></div>
+        <div class="edit-row">
+          <span class="edit-label">상태</span>
+          <select class="edit-select" data-field="status">
+            <option value="live" ${c.status==='live'?'selected':''}>LIVE</option>
+            <option value="new" ${c.status==='new'?'selected':''}>NEW</option>
+            <option value="soon" ${c.status==='soon'?'selected':''}>준비 중</option>
+          </select>
+        </div>
+        <div class="edit-row-btns">
+          <button class="btn-card-apply" onclick="applyCard('${c.id}',this)">적용</button>
+          <button class="btn-card-delete" onclick="deleteCard('${c.id}')">삭제</button>
+        </div>
+      </div>
+    </${hasLink && !isAdmin ? 'a' : 'div'}>`;
+  }).join('');
+}
+
+function applyCard(id, btn){
+  const overlay = btn.closest('.card-edit-overlay');
+  const card = data.cards.find(c=>c.id===id);
+  if(!card) return;
+  overlay.querySelectorAll('[data-field]').forEach(el=>{
+    card[el.dataset.field] = el.value;
+  });
+  showToast('카드 수정됨 — 저장 버튼을 눌러 반영하세요');
+  renderCards();
+}
+function deleteCard(id){
+  if(!confirm('이 카드를 삭제할까요?')) return;
+  data.cards = data.cards.filter(c=>c.id!==id);
+  renderCards();
+  showToast('카드 삭제됨');
+}
+
+function renderNotices(){
+  const container = document.getElementById('noticeContainer');
+  if(!data.notices.length){
+    container.innerHTML = '<div class="notice-empty">등록된 공지사항이 없습니다.</div>';
+    return;
+  }
+  const tagOpts = `<option value="new">NEW</option><option value="update">업데이트</option><option value="notice">공지</option>`;
+  const tagClass = t => t==='new'?'t-new':t==='update'?'t-update':'t-notice';
+  container.innerHTML = `<div class="notice-list">${data.notices.map(n=>`
+    <div class="notice-item" data-id="${n.id}">
+      <span class="notice-tag ${tagClass(n.tag)}">${n.tag==='new'?'NEW':n.tag==='update'?'업데이트':'공지'}</span>
+      <select class="notice-tag-select" data-nid="${n.id}">${tagOpts.replace(`value="${n.tag}"`,`value="${n.tag}" selected`)}</select>
+      <span class="notice-text notice-editable" contenteditable="${isAdmin}" data-nid="${n.id}" onblur="updateNoticeText('${n.id}',this)">${n.text}${n.dot?'<span class="notice-dot"></span>':''}</span>
+      <input class="notice-date-edit" value="${n.date}" data-nid="${n.id}" onblur="updateNoticeDate('${n.id}',this)" ${isAdmin?'':'readonly'}>
+      <div class="notice-edit-controls">
+        <button class="btn-notice-del" onclick="deleteNotice('${n.id}')">✕ 삭제</button>
+      </div>
+    </div>`).join('')}</div>`;
+
+  // tag select change listener
+  container.querySelectorAll('.notice-tag-select').forEach(sel=>{
+    sel.addEventListener('change', function(){
+      const nid = this.dataset.nid;
+      const n = data.notices.find(x=>x.id===nid);
+      if(n) n.tag = this.value;
+      renderNotices();
+    });
+  });
+}
+function updateNoticeText(id, el){
+  const n = data.notices.find(x=>x.id===id);
+  if(n) n.text = el.innerText.replace(/\n/g,'').trim();
+}
+function updateNoticeDate(id, el){
+  const n = data.notices.find(x=>x.id===id);
+  if(n) n.date = el.value;
+}
+function deleteNotice(id){
+  if(!confirm('이 공지를 삭제할까요?')) return;
+  data.notices = data.notices.filter(n=>n.id!==id);
+  renderNotices();
+  showToast('공지 삭제됨');
+}
+
+function renderQuick(){
+  const list = document.getElementById('quickList');
+  list.innerHTML = data.quick.map(q=>`
+    <${q.href && !isAdmin ? 'a href="'+q.href+'" target="_blank"' : 'div'} class="quick-item${q.disabled&&!isAdmin?' disabled':''}" data-id="${q.id}">
+      <div class="quick-icon">${q.icon}</div>
+      <div class="quick-label">${q.label}</div>
+      <div class="quick-url">${q.url}</div>
+      <div class="quick-edit-overlay">
+        <input class="qedit-input" placeholder="아이콘" value="${q.icon}" data-field="icon">
+        <input class="qedit-input" placeholder="이름" value="${q.label}" data-field="label">
+        <input class="qedit-input" placeholder="URL" value="${q.href||''}" data-field="href">
+        <input class="qedit-input" placeholder="표시 URL" value="${q.url||''}" data-field="url">
+        <div class="qedit-btns">
+          <button class="btn-qapply" onclick="applyQuick('${q.id}',this)">적용</button>
+          <button class="btn-qdel" onclick="deleteQuick('${q.id}')">삭제</button>
+        </div>
+      </div>
+    </${q.href && !isAdmin ? 'a' : 'div'}>`).join('');
+}
+function applyQuick(id, btn){
+  const overlay = btn.closest('.quick-edit-overlay');
+  const q = data.quick.find(x=>x.id===id);
+  if(!q) return;
+  overlay.querySelectorAll('[data-field]').forEach(el=>{ q[el.dataset.field]=el.value; });
+  q.disabled = !q.href;
+  showToast('링크 수정됨 — 저장 버튼을 눌러 반영하세요');
+  renderQuick();
+}
+function deleteQuick(id){
+  if(!confirm('이 링크를 삭제할까요?')) return;
+  data.quick = data.quick.filter(q=>q.id!==id);
+  renderQuick();
+  showToast('링크 삭제됨');
+}
+
+/* ── 관리자 인증 ── */
+function toggleAdmin(){
+  if(isAdmin){ exitAdmin(); return; }
+  document.getElementById('pwModal').classList.add('on');
+  setTimeout(()=>document.getElementById('pwInput').focus(),100);
+}
+function closePwModal(){
+  document.getElementById('pwModal').classList.remove('on');
+  document.getElementById('pwInput').value='';
+  document.getElementById('pwErr').textContent='';
+}
+function checkPw(){
+  const val = document.getElementById('pwInput').value;
+  if(val===ADMIN_PW){
+    closePwModal();
+    enterAdmin();
+  } else {
+    document.getElementById('pwErr').textContent='비밀번호가 올바르지 않습니다.';
+    document.getElementById('pwInput').select();
+  }
+}
+function enterAdmin(){
+  isAdmin=true;
+  document.body.classList.add('admin-on');
+  document.getElementById('adminBanner').classList.add('on');
+  document.getElementById('lockBtn').classList.add('unlocked');
+  document.getElementById('lockBtn').textContent='🔓';
+  render();
+  showToast('관리자 모드 활성화');
+}
+function exitAdmin(){
+  isAdmin=false;
+  document.body.classList.remove('admin-on');
+  document.getElementById('adminBanner').classList.remove('on');
+  document.getElementById('lockBtn').classList.remove('unlocked');
+  document.getElementById('lockBtn').textContent='🔒';
+  render();
+}
+
+/* ── 항목 추가 모달 ── */
+function openAddModal(type){
+  addType = type;
+  const title = {card:'카드 추가', notice:'공지 추가', quick:'링크 추가'}[type];
+  document.getElementById('addModalTitle').textContent = title;
+  const body = document.getElementById('addModalBody');
+  if(type==='card'){
+    body.innerHTML=`
+      <div class="form-row"><label>아이콘 (이모지)</label><input id="af-icon" value="📋"></div>
+      <div class="form-row"><label>제목</label><input id="af-title" placeholder="카드 제목"></div>
+      <div class="form-row"><label>설명</label><textarea id="af-desc" placeholder="카드 설명"></textarea></div>
+      <div class="form-row"><label>링크 (파일명 or URL)</label><input id="af-link" placeholder="예: abtc_manual.html"></div>
+      <div class="form-row"><label>상태</label><select id="af-status"><option value="live">LIVE</option><option value="new">NEW</option><option value="soon" selected>준비 중</option></select></div>`;
+  } else if(type==='notice'){
+    body.innerHTML=`
+      <div class="form-row"><label>태그</label><select id="af-tag"><option value="new">NEW</option><option value="update">업데이트</option><option value="notice" selected>공지</option></select></div>
+      <div class="form-row"><label>내용</label><input id="af-text" placeholder="공지 내용"></div>
+      <div class="form-row"><label>날짜</label><input id="af-date" placeholder="2025.05"></div>`;
+  } else {
+    body.innerHTML=`
+      <div class="form-row"><label>아이콘 (이모지)</label><input id="af-icon" value="🔗"></div>
+      <div class="form-row"><label>이름</label><input id="af-label" placeholder="링크 이름"></div>
+      <div class="form-row"><label>URL</label><input id="af-href" placeholder="https://..."></div>
+      <div class="form-row"><label>표시 URL (짧게)</label><input id="af-url" placeholder="example.com"></div>`;
+  }
+  document.getElementById('addModal').classList.add('on');
+}
+function closeAddModal(){ document.getElementById('addModal').classList.remove('on'); }
+function uid(){ return '_'+Math.random().toString(36).substr(2,6); }
+function confirmAdd(){
+  if(addType==='card'){
+    data.cards.push({ id:'c'+uid(), icon:v('af-icon'), status:v('af-status'), title:v('af-title'), desc:v('af-desc'), link:v('af-link'), linkLabel:'상세 안내 보기' });
+  } else if(addType==='notice'){
+    data.notices.unshift({ id:'n'+uid(), tag:v('af-tag'), text:v('af-text'), date:v('af-date'), dot:v('af-tag')==='new' });
+  } else {
+    const href = v('af-href');
+    data.quick.push({ id:'q'+uid(), icon:v('af-icon'), label:v('af-label'), href, url:v('af-url')||href, disabled:!href });
+  }
+  closeAddModal();
+  render();
+  showToast('추가됨 — 저장 버튼을 눌러 반영하세요');
+}
+function v(id){ const el=document.getElementById(id); return el?el.value.trim():''; }
+
+/* ── 섹션 토글 ── */
+function showSection(name){
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  ['manuals','notices','links'].forEach(s=>{
+    document.getElementById('sec-'+s).style.display = (name===s||name==='manuals'&&s==='manuals') ? '' : '';
+  });
+  document.getElementById('sec-'+name).scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ── Toast ── */
+let toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+/* ── 키보드 ── */
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closePwModal(); closeAddModal(); } });
+
+
+/* ══════════════════════════════════
+   포털 진입 비밀번호 (잠금화면)
+   변경: 관리자 모드 → 비밀번호 변경 패널
+══════════════════════════════════ */
+const DEFAULT_PORTAL_PW = '1237';
+
+function getPortalPw(){
+  return localStorage.getItem('samg_portal_pw') || DEFAULT_PORTAL_PW;
+}
+
+function lsLogin(){
+  const val = document.getElementById('lsInput').value;
+  const inp = document.getElementById('lsInput');
+  const err = document.getElementById('lsErr');
+  if(val === getPortalPw()){
+    document.getElementById('lockScreen').classList.add('hidden');
+    err.textContent = '';
+    inp.value = '';
+  } else {
+    err.textContent = '비밀번호가 올바르지 않습니다.';
+    inp.classList.add('error');
+    inp.select();
+    setTimeout(()=>inp.classList.remove('error'), 400);
+  }
+}
+
+function lsToggleEye(){
+  const inp = document.getElementById('lsInput');
+  const eye = document.getElementById('lsEye');
+  if(inp.type === 'password'){
+    inp.type = 'text'; eye.textContent = '🙈';
+  } else {
+    inp.type = 'password'; eye.textContent = '👁';
+  }
+}
+
+function togglePwPanel(){
+  const p = document.getElementById('pwChangePanel');
+  p.classList.toggle('on');
+  if(p.classList.contains('on')){
+    document.getElementById('pwCurr').focus();
+  }
+}
+
+function changePortalPw(){
+  const curr = document.getElementById('pwCurr').value;
+  const nw   = document.getElementById('pwNew').value;
+  const cf   = document.getElementById('pwNewConfirm').value;
+  const msg  = document.getElementById('pwChangeMsg');
+
+  if(curr !== getPortalPw()){
+    msg.style.color='#dc2626'; msg.textContent='현재 비밀번호가 올바르지 않습니다.'; return;
+  }
+  if(!nw){ msg.style.color='#dc2626'; msg.textContent='새 비밀번호를 입력하세요.'; return; }
+  if(nw !== cf){ msg.style.color='#dc2626'; msg.textContent='새 비밀번호가 일치하지 않습니다.'; return; }
+
+  localStorage.setItem('samg_portal_pw', nw);
+  msg.style.color='#16a34a'; msg.textContent='✓ 비밀번호가 변경되었습니다.';
+  document.getElementById('pwCurr').value='';
+  document.getElementById('pwNew').value='';
+  document.getElementById('pwNewConfirm').value='';
+  setTimeout(()=>{ msg.textContent=''; document.getElementById('pwChangePanel').classList.remove('on'); }, 2000);
+}
+
+/* ── 초기화 ── */
+loadData();
+render();
+</script>
 </body>
 </html>
